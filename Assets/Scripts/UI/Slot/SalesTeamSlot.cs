@@ -19,31 +19,47 @@ public class SalesTeamSlot : MonoBehaviour
 
     private SalesTeam _salesTeam;
 
-    public void Init(SalesTeam salesTeam)
+    private void Start()
     {
-        _salesTeam = salesTeam;
-        salesTeam.onValueChanged += UpdateUI;
-        salesTeam.onProgressValueChanged += UpdateProgressUI;
-        _upgradeButton.onClick.AddListener(Upgrade);
-        UpdateUI(salesTeam);
+        _upgradeButton.onClick.AddListener(() => _salesTeam.Upgrade());
     }
 
     private void OnEnable()
     {
-        if (_salesTeam != null)
-        {
-            _salesTeam.onValueChanged += UpdateUI;
-            _salesTeam.onProgressValueChanged += UpdateProgressUI;
-        }
+        Observe(true);
     }
 
     private void OnDisable()
     {
-        _salesTeam.onValueChanged -= UpdateUI;
-        _salesTeam.onProgressValueChanged -= UpdateProgressUI;
+        Observe(false);
     }
 
-    public void UpdateUI(SalesTeam salesTeam)
+    public void SetInfo(SalesTeam salesTeam)
+    {
+        Observe(false);
+        _salesTeam = salesTeam;
+        Observe(true);
+
+        UpdateUI(salesTeam);
+    }
+
+    private void Observe(bool value)
+    {
+        if (_salesTeam == null) return;
+
+        if (value)
+        {
+            _salesTeam.onValueChanged += UpdateUI;
+            _salesTeam.onProgressValueChanged += UpdateProgressUI;
+        }
+        else
+        {
+            _salesTeam.onValueChanged -= UpdateUI;
+            _salesTeam.onProgressValueChanged -= UpdateProgressUI;
+        }
+    }
+
+    private void UpdateUI(SalesTeam salesTeam)
     {
         if (salesTeam.Level == 0)
         {
@@ -63,13 +79,8 @@ public class SalesTeamSlot : MonoBehaviour
         }
     }
 
-    public void UpdateProgressUI(float progress)
+    private void UpdateProgressUI(float progress)
     {
         _progressFillImage.fillAmount = progress;
-    }
-
-    public void Upgrade()
-    {
-        _salesTeam.Upgrade();
     }
 }

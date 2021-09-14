@@ -10,15 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5276cdf6f798687408c78d56c351b916, type: 3}
-  m_Name: FarmBundle
+  m_Name: FarmBundle ResrouceB
   m_EditorClassIdentifier: 
   <Farms>k__BackingField:
-  - <Name>k__BackingField: Making ResourceA
-    <Output>k__BackingField:
-      <Asset>k__BackingField: {fileID: 11400000, guid: 27652a0f37d06374988c0b9560fedfd5, type: 2}
-      <Amount>k__BackingField: 0
-      <Formula>k__BackingField: '{0} * 100'
-    <LeadTime>k__BackingField: 2
+  - <Name>k__BackingField: Making ResourceB
     <UnlockCondition>k__BackingField:
       <Asset>k__BackingField: {fileID: 11400000, guid: 6cba567ac9ab57a46b9313dcae4fd520, type: 2}
       <Amount>k__BackingField: 0
@@ -27,12 +22,13 @@ MonoBehaviour:
       <Amount>k__BackingField: 0
       <Formula>k__BackingField: '{0} * 50'
     <Background>k__BackingField: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  - <Name>k__BackingField: Making ResourceB
-    <Output>k__BackingField:
+    _output:
       <Asset>k__BackingField: {fileID: 11400000, guid: 34d54a643bb56c9439026b47a32a20d7, type: 2}
       <Amount>k__BackingField: 0
-      <Formula>k__BackingField: '{0} * 200'
-    <LeadTime>k__BackingField: 1
+      <Formula>k__BackingField: '{0} * 50'
+    _leadTime: 1
+    _chiefBundle: {fileID: 11400000, guid: c8895a9e69db71c4599ecf00def05757, type: 2}
+  - <Name>k__BackingField: Making ResourceB
     <UnlockCondition>k__BackingField:
       <Asset>k__BackingField: {fileID: 11400000, guid: 6cba567ac9ab57a46b9313dcae4fd520, type: 2}
       <Amount>k__BackingField: 0
@@ -41,3 +37,9 @@ MonoBehaviour:
       <Amount>k__BackingField: 0
       <Formula>k__BackingField: '{0} * 100'
     <Background>k__BackingField: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    _output:
+      <Asset>k__BackingField: {fileID: 11400000, guid: 34d54a643bb56c9439026b47a32a20d7, type: 2}
+      <Amount>k__BackingField: 0
+      <Formula>k__BackingField: '{0} * 100'
+    _leadTime: 2
+    _chiefBundle: {fileID: 11400000, guid: c8895a9e69db71c4599ecf00def05757, type: 2}

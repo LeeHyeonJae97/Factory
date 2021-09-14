@@ -99,6 +99,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180932867533427907}
     m_Modifications:
     - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
       propertyPath: m_fontSize
       value: 15
       objectReference: {fileID: 0}
@@ -219,6 +223,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1180932867533427907}
     m_Modifications:
+    - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
       propertyPath: m_fontSize
       value: 15
@@ -448,6 +456,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180932867533427907}
     m_Modifications:
     - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
       propertyPath: m_fontSize
       value: 15
       objectReference: {fileID: 0}
@@ -569,6 +581,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1180932867533427907}
     m_Modifications:
     - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
       propertyPath: m_fontSize
       value: 15
       objectReference: {fileID: 0}
@@ -689,6 +705,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1180932867533427907}
     m_Modifications:
+    - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7621657186754425022, guid: 515c3153f2dac44499bfec18c18a23bd, type: 3}
       propertyPath: m_fontSize
       value: 15

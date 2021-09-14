@@ -43,9 +43,10 @@ public class FameSO : ScriptableObject
     public UnityAction<int> onLevelValueChanged;
     public UnityAction<float> onExpRatioValueChanged;
 
-    public void Init(int level)
+    public void Init(int level, int exp)
     {
         Level = level;
+        Exp = exp;
         _maxExp = int.Parse(new DataTable().Compute(string.Format(_maxExpFormula, level), null).ToString());
     }
 }

@@ -18,28 +18,44 @@ public class ServiceTeamSlot : MonoBehaviour
 
     private ServiceTeam _serviceTeam;
 
-    public void Init(ServiceTeam serviceTeam)
+    private void Start()
     {
+        _upgradeButton.onClick.AddListener(() => _serviceTeam.Upgrade());
+    }
+
+    public void SetInfo(ServiceTeam serviceTeam)
+    {
+        Observe(false);
         _serviceTeam = serviceTeam;
-        serviceTeam.onValueChanged += UpdateUI;
-        serviceTeam.onProgressValueChanged += UpdateProgressUI;
-        _upgradeButton.onClick.AddListener(Upgrade);
+        Observe(true);
+
         UpdateUI(serviceTeam);
     }
 
     private void OnEnable()
     {
-        if (_serviceTeam != null)
-        {
-            _serviceTeam.onValueChanged += UpdateUI;
-            _serviceTeam.onProgressValueChanged += UpdateProgressUI;
-        }
+        Observe(true);
     }
 
     private void OnDisable()
     {
-        _serviceTeam.onValueChanged -= UpdateUI;
-        _serviceTeam.onProgressValueChanged -= UpdateProgressUI;
+        Observe(false);
+    }
+
+    private void Observe(bool value)
+    {
+        if (_serviceTeam == null) return; 
+
+        if(value)
+        {
+            _serviceTeam.onValueChanged += UpdateUI;
+            _serviceTeam.onProgressValueChanged += UpdateProgressUI;
+        }
+        else
+        {
+            _serviceTeam.onValueChanged -= UpdateUI;
+            _serviceTeam.onProgressValueChanged -= UpdateProgressUI;
+        }
     }
 
     public void UpdateUI(ServiceTeam serviceTeam)
@@ -64,10 +80,5 @@ public class ServiceTeamSlot : MonoBehaviour
     public void UpdateProgressUI(float progress)
     {
         _progressFillImage.fillAmount = progress;
-    }
-
-    public void Upgrade()
-    {
-        _serviceTeam.Upgrade();
     }
 }

@@ -25,7 +25,7 @@ public class FameUI : MonoBehaviour
 
     public void UpdateLevelUI(int level)
     {
-        _levelText.text = $"{_fame.Level}";
+        _levelText.text = $"Level {_fame.Level}";
     }
 
     public void UpdateExpUI(float progress)

@@ -12,8 +12,6 @@ public class ServiceTeamRunner : MonoBehaviour
 
         for (int i = 0; i < serviceTeams.Length; i++)
         {
-            serviceTeams[i].Init(0); // Change to init with saved data
-
             if (serviceTeams[i].Level == 0)
                 serviceTeams[i].onValueChanged += Sell;
             else

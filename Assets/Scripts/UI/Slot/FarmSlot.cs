@@ -19,31 +19,47 @@ public class FarmSlot : MonoBehaviour
 
     private Farm _farm;
 
-    public void Init(Farm farm)
+    private void Start()
     {
-        _farm = farm;
-        farm.onValueChanged += UpdateUI;
-        farm.onProgressValueChanged += UpdateProgressUI;
-        _upgradeButton.onClick.AddListener(Upgrade);
-        UpdateUI(farm);
+        _upgradeButton.onClick.AddListener(() => _farm.Upgrade());
     }
 
     private void OnEnable()
     {
-        if (_farm != null)
-        {
-            _farm.onValueChanged += UpdateUI;
-            _farm.onProgressValueChanged += UpdateProgressUI;
-        }
+        Observe(true);
     }
 
     private void OnDisable()
     {
-        _farm.onValueChanged -= UpdateUI;
-        _farm.onProgressValueChanged -= UpdateProgressUI;
+        Observe(false);
     }
 
-    public void UpdateUI(Farm farm)
+    public void SetInfo(Farm farm)
+    {
+        Observe(false);
+        _farm = farm;
+        Observe(true);
+
+        UpdateUI(farm);
+    }
+
+    private void Observe(bool value)
+    {
+        if (_farm == null) return;
+
+        if(value)
+        {
+            _farm.onValueChanged += UpdateUI;
+            _farm.onProgressValueChanged += UpdateProgressUI;
+        }
+        else
+        {
+            _farm.onValueChanged -= UpdateUI;
+            _farm.onProgressValueChanged -= UpdateProgressUI;
+        }
+    }
+
+    private void UpdateUI(Farm farm)
     {
         if (farm.Level == 0)
         {
@@ -52,7 +68,7 @@ public class FarmSlot : MonoBehaviour
         else
         {
             _nameText.text = farm.Name;
-            _outputText.text = $"Output Amount : {farm.Output.Amount}";
+            _outputText.text = $"Output Amount : {farm.Output}";
             _leadTimeText.text = $"Lead Time : {farm.LeadTime}";
             _unlockConditionText.text = $"Unlock Condition : {farm.UnlockCondition.Amount}";
             _upgradeCostText.text = $"Upgrade Cost : {farm.UpgradeCost.Amount}";
@@ -62,13 +78,8 @@ public class FarmSlot : MonoBehaviour
         }
     }
 
-    public void UpdateProgressUI(float progress)
+    private void UpdateProgressUI(float progress)
     {
         _progressFillImage.fillAmount = progress;
-    }
-
-    public void Upgrade()
-    {
-        _farm.Upgrade();
     }
 }

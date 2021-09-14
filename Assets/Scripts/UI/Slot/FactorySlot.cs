@@ -19,31 +19,47 @@ public class FactorySlot : MonoBehaviour
 
     private Factory _factory;
 
-    public void Init(Factory factory)
+    private void Start()
     {
-        _factory = factory;
-        factory.onValueChanged += UpdateUI;
-        factory.onProgressValueChanged += UpdateProgressUI;
-        _upgradeButton.onClick.AddListener(Upgrade);
-        UpdateUI(factory);
+        _upgradeButton.onClick.AddListener(() => _factory.Upgrade());
     }
 
     private void OnEnable()
     {
-        if (_factory != null)
-        {
-            _factory.onValueChanged += UpdateUI;
-            _factory.onProgressValueChanged += UpdateProgressUI;
-        }
+        Observe(true);
     }
 
     private void OnDisable()
     {
-        _factory.onValueChanged -= UpdateUI;
-        _factory.onProgressValueChanged -= UpdateProgressUI;
+        Observe(false);
     }
 
-    public void UpdateUI(Factory factory)
+    public void SetInfo(Factory factory)
+    {
+        Observe(false);
+        _factory = factory;
+        Observe(true);
+
+        UpdateUI(factory);
+    }
+
+    private void Observe(bool value)
+    {
+        if (_factory == null) return;
+
+        if (value)
+        {
+            _factory.onValueChanged += UpdateUI;
+            _factory.onProgressValueChanged += UpdateProgressUI;
+        }
+        else
+        {
+            _factory.onValueChanged -= UpdateUI;
+            _factory.onProgressValueChanged -= UpdateProgressUI;
+        }
+    }
+
+    private void UpdateUI(Factory factory)
     {
         if (factory.Level == 0)
         {
@@ -74,13 +90,8 @@ public class FactorySlot : MonoBehaviour
         }
     }
 
-    public void UpdateProgressUI(float progress)
+    private void UpdateProgressUI(float progress)
     {
         _progressFillImage.fillAmount = progress;
-    }
-
-    public void Upgrade()
-    {
-        _factory.Upgrade();
     }
 }

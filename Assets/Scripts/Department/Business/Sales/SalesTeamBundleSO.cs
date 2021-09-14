@@ -36,6 +36,10 @@ public class SalesTeam
 
     public void Init(int level)
     {
+        // Data to save/load
+        // 1. level
+        // 2. progress
+
         Level = level;
         UpdateValue();
     }
