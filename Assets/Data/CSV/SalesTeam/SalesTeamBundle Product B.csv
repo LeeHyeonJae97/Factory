@@ -1,0 +1,11 @@
+﻿<Name>k__BackingField,<Background>k__BackingField,_leadTime,_inputAmountFormula,_upgradeCostFormula,<UnlockConditionAmount>k__BackingField
+Making Resource A 1,,2,{0} * 10,{0} * 10,0
+Making Resource A 2,,2,{0} * 20,{0} * 20 + 20,1
+Making Resource A 3,,2,{0} * 30,{0} * 30 + 30,2
+Making Resource A 4,,2,{0} * 40,{0} * 40 + 40,3
+Making Resource A 5,,2,{0} * 50,{0} * 50 + 40,4
+Making Resource A 6,,2,{0} * 60,{0} * 60 + 60,5
+Making Resource A 7,,2,{0} * 70,{0} * 70 + 70,6
+Making Resource A 8,,2,{0} * 80,{0} * 80 + 80,7
+Making Resource A 9,,2,{0} * 90,{0} * 90 + 90,8
+Making Resource A 10,,2,{0} * 100,{0} * 100 + 100,9

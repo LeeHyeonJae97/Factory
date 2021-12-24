@@ -28,7 +28,6 @@ namespace UIExtension
             {
                 targetGraphic.color = colors.normalColor;
                 onSelected?.Invoke();
-
             }
             else
             {

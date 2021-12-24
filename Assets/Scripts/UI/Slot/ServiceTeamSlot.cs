@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ServiceTeamSlot : MonoBehaviour
+public class ServiceTeamSlot : MonoBehaviour, IPresenter<ServiceTeamSO>, IObserver
 {
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _outputText;
@@ -16,20 +16,11 @@ public class ServiceTeamSlot : MonoBehaviour
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private GameObject _unlockedCoverImage;
 
-    private ServiceTeam _serviceTeam;
+    private ServiceTeamSO _serviceTeam;
 
     private void Start()
     {
         _upgradeButton.onClick.AddListener(() => _serviceTeam.Upgrade());
-    }
-
-    public void SetInfo(ServiceTeam serviceTeam)
-    {
-        Observe(false);
-        _serviceTeam = serviceTeam;
-        Observe(true);
-
-        UpdateUI(serviceTeam);
     }
 
     private void OnEnable()
@@ -42,12 +33,19 @@ public class ServiceTeamSlot : MonoBehaviour
         Observe(false);
     }
 
-    private void Observe(bool value)
+    public void SetInfo(ServiceTeamSO serviceTeam)
     {
-        if (_serviceTeam == null) return; 
+        _serviceTeam = serviceTeam;
+    }
 
-        if(value)
+    public void Observe(bool value)
+    {
+        if (_serviceTeam == null) return;
+
+        if (value)
         {
+            UpdateUI(_serviceTeam);
+
             _serviceTeam.onValueChanged += UpdateUI;
             _serviceTeam.onProgressValueChanged += UpdateProgressUI;
         }
@@ -58,26 +56,19 @@ public class ServiceTeamSlot : MonoBehaviour
         }
     }
 
-    public void UpdateUI(ServiceTeam serviceTeam)
+    private void UpdateUI(ServiceTeamSO serviceTeam)
     {
-        if (serviceTeam.Level == 0)
-        {
-            _unlockedCoverImage.SetActive(true);
-        }
-        else
-        {
-            _nameText.text = serviceTeam.Name;
-            _outputText.text = $"Output Amount : {serviceTeam.Output.Amount}";
-            _leadTimeText.text = $"Lead Time : {serviceTeam.LeadTime}";
-            _unlockConditionText.text = $"Unlock Condition : {serviceTeam.UnlockCondition.Amount}";
-            _upgradeCostText.text = $"Upgrade Cost : {serviceTeam.UpgradeCost.Amount}";
-            _backgroundImage.sprite = serviceTeam.Background;
-
-            if (_unlockedCoverImage.activeInHierarchy) _unlockedCoverImage.SetActive(false);
-        }
+        _nameText.text = serviceTeam.Name;
+        _outputText.text = $"Output Amount : {serviceTeam.OutputAmount}";
+        _leadTimeText.text = $"Lead Time : {serviceTeam.LeadTime}";
+        _unlockConditionText.text = $"Unlock Condition : {serviceTeam.UnlockConditionAmount}";
+        _upgradeCostText.text = $"Upgrade Cost : {serviceTeam.UpgradeCost}";
+        _backgroundImage.sprite = serviceTeam.Background;
+        _unlockedCoverImage.SetActive(serviceTeam.Level == 0);
+        _progressFillImage.fillAmount = serviceTeam.Progress;
     }
 
-    public void UpdateProgressUI(float progress)
+    private void UpdateProgressUI(float progress)
     {
         _progressFillImage.fillAmount = progress;
     }

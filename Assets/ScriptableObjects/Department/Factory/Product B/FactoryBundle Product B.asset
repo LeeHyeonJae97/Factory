@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af8925295210389479529e464f27606c, type: 3}
+  m_Name: FactoryBundle Product B
+  m_EditorClassIdentifier: 
+  <Factories>k__BackingField:
+  - {fileID: 11400000, guid: 9d10ca94d578e734d818bc7d51866943, type: 2}
+  _inputs:
+  - {fileID: 11400000, guid: 87172a89eba0b734892785d9a1d0cfe9, type: 2}
+  _output: {fileID: 11400000, guid: a5415e2181fe7b545a603771f800e0bb, type: 2}
+  _upgradeOffering: {fileID: 11400000, guid: 74647991720f2ac4db8a04ee0fd7acfa, type: 2}
+  _fame: {fileID: 11400000, guid: 6cba567ac9ab57a46b9313dcae4fd520, type: 2}
+  _chiefBundle: {fileID: 11400000, guid: 91c8693901c0aa9439942e19c0b51b3c, type: 2}

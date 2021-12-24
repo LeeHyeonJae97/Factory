@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5276cdf6f798687408c78d56c351b916, type: 3}
+  m_Name: FarmBundle Resrouce C
+  m_EditorClassIdentifier: 
+  <Farms>k__BackingField:
+  - {fileID: 11400000, guid: 479414a1a4d916f408defe1d4c3cfd80, type: 2}
+  _output: {fileID: 11400000, guid: 87172a89eba0b734892785d9a1d0cfe9, type: 2}
+  _upgradeOffering: {fileID: 11400000, guid: 74647991720f2ac4db8a04ee0fd7acfa, type: 2}
+  _fame: {fileID: 11400000, guid: 6cba567ac9ab57a46b9313dcae4fd520, type: 2}
+  _chiefBundle: {fileID: 11400000, guid: c8895a9e69db71c4599ecf00def05757, type: 2}

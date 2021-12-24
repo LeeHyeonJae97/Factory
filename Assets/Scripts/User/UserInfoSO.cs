@@ -1,22 +1,48 @@
+using Extension;
 using System.Collections;
 using System.Collections.Generic;
+using TigerForge;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "UserInfo", menuName = "ScriptableObject/UserInfo")]
 public class UserInfoSO : ScriptableObject
 {
-    [field: SerializeField] public FameSO Fame { get; private set; }
-    [field: SerializeField] public AssetSO[] Assets { get; private set; }
-    [field: SerializeField] public ProductSO[] Products { get; private set; }
-
-    public void Init()
+    private static UserInfoSO _instance;
+    public static UserInfoSO instance
     {
-        // Load data using EasyFileSave
+        get
+        {
+            if (_instance == null)
+                _instance = Resources.Load<UserInfoSO>("UserInfo");
 
-        Fame.Init(1, 0);
-        for (int i = 0; i < Assets.Length; i++)
-            Assets[i].Init(0);
-        for (int i = 0; i < Products.Length; i++)
-            Products[i].Init(0);
+            return _instance;
+        }
+    }
+
+    public string nickname;
+
+    public void Load()
+    {
+        EasyFileSave file = new EasyFileSave("UserInfo");
+        file.Load("UserInfo");
+
+        StatPoint.Load(file);
+        MoneySO.Load(file);
+        ResourceSO.Load(file);
+        ProductSO.Load(file);
+        CapabilitySO.Load(file);
+    }
+
+    public void Save()
+    {
+        EasyFileSave file = new EasyFileSave("UserInfo");
+
+        StatPoint.Save(file);
+        MoneySO.Save(file);
+        ResourceSO.Save(file);
+        ProductSO.Save(file);
+        CapabilitySO.Save(file);
+
+        file.Save("UserInfo");
     }
 }

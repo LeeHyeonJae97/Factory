@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69e4dcd383b31c44d85d174ff2afa245, type: 3}
+  m_Name: SalesTeamBundle Product B
+  m_EditorClassIdentifier: 
+  <SalesTeams>k__BackingField:
+  - {fileID: 11400000, guid: 99e9234fdf0a20f4f95446ff342583be, type: 2}
+  - {fileID: 11400000, guid: 297919b1a9b23b44386476fbd1199f06, type: 2}
+  _input: {fileID: 11400000, guid: a5415e2181fe7b545a603771f800e0bb, type: 2}
+  _output: {fileID: 11400000, guid: 74647991720f2ac4db8a04ee0fd7acfa, type: 2}
+  _upgradeOffering: {fileID: 11400000, guid: 74647991720f2ac4db8a04ee0fd7acfa, type: 2}
+  _fame: {fileID: 11400000, guid: 6cba567ac9ab57a46b9313dcae4fd520, type: 2}
+  _chiefBundle: {fileID: 11400000, guid: e846c459094bcee47a271d1e2caf54b4, type: 2}

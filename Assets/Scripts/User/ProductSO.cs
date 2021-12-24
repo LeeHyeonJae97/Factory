@@ -1,24 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
+using TigerForge;
 using UnityEngine;
 using UnityEngine.Events;
+
+public enum ProductType { A, B }
 
 [CreateAssetMenu(fileName = "Product", menuName = "ScriptableObject/Product")]
 public class ProductSO : ScriptableObject
 {
-    [field: SerializeField] public int Id { get; private set; }
+    private static ProductSO[] _instances;
+
+    public static int Length => _instances.Length;
+
+    [field: SerializeField] public ProductType Type { get; private set; }
     [field: SerializeField] public string Name { get; private set; }
     [field: SerializeField] public string Description { get; private set; }
-    [field: SerializeField] public Sprite Icon { get; private set; }     
+    [field: SerializeField] public Sprite Icon { get; private set; }
     [field: SerializeField] public int Price { get; private set; }
     public int Amount { get; private set; }
 
-    public UnityAction<int, int> onValueChanged;
+    public UnityAction<ProductSO> onValueChanged;
 
-    public void Init(int amount)
+    public static void Load(EasyFileSave file)
     {
-        Amount = amount;
-        onValueChanged?.Invoke(Id, Amount);
+        if (_instances == null)
+        {
+            var tmp = Resources.LoadAll<ProductSO>("Product");
+            _instances = new ProductSO[tmp.Length];
+
+            for (int i = 0; i < tmp.Length; i++)
+                _instances[(int)tmp[i].Type] = tmp[i];
+        }
+
+        for (int i = 0; i < _instances.Length; i++)
+        {
+            _instances[i].Amount = file.GetInt($"{_instances[i].Type}Amount");
+            _instances[i].onValueChanged?.Invoke(_instances[i]);
+        }
+    }
+
+    public static void Save(EasyFileSave file)
+    {
+        for (int i = 0; i < _instances.Length; i++)
+            file.Add($"{_instances[i].Type}Amount", _instances[i].Amount);
+    }
+
+    public static ProductSO Get(int index)
+    {
+        return _instances[index];
+    }
+
+    public static ProductSO Get(ProductType type)
+    {
+        return _instances[(int)type];
     }
 
     public bool Affordable(int amount)
@@ -29,12 +64,12 @@ public class ProductSO : ScriptableObject
     public void Gain(int amount)
     {
         Amount += amount;
-        onValueChanged?.Invoke(Id, Amount);
+        onValueChanged?.Invoke(this);
     }
 
     public void Lose(int amount)
     {
         Amount -= amount;
-        onValueChanged?.Invoke(Id, Amount);
+        onValueChanged?.Invoke(this);
     }
 }

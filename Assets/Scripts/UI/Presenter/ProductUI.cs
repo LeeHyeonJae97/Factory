@@ -1,30 +1,54 @@
+using Extension;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ProductUI : MonoBehaviour
+public class ProductUI : MonoBehaviour, IObserver
 {
     [SerializeField] private TextMeshProUGUI[] _resourceText;
-    [SerializeField] private ProductSO[] _products;
+
+    private void Start()
+    {
+        if (_resourceText.Length != ProductSO.Length)
+        {
+            Debug.LogError("Error (AssetUI.Awake) : _resourceText.Length != _products.Length");
+            return;
+        }
+
+        for (int i = 0; i < ProductSO.Length; i++)
+            UpdateUI(ProductSO.Get(i));
+    }
 
     private void OnEnable()
     {
-        for (int i = 0; i < _products.Length; i++)
-            _products[i].onValueChanged += UpdateUI;
+        Observe(true);
     }
 
     private void OnDisable()
     {
-        for (int i = 0; i < _products.Length; i++)
-            _products[i].onValueChanged -= UpdateUI;
+        Observe(false);
     }
 
-    private void UpdateUI(int id, int amount)
+    public void Observe(bool value)
+    {
+        if (value)
+        {
+            for (int i = 0; i < ProductSO.Length; i++)
+                ProductSO.Get(i).onValueChanged += UpdateUI;
+        }
+        else
+        {
+            for (int i = 0; i < ProductSO.Length; i++)
+                ProductSO.Get(i).onValueChanged -= UpdateUI;
+        }
+    }
+
+    private void UpdateUI(ProductSO product)
     {
         // Effect
 
-        _resourceText[id].text = $"{amount}";
+        _resourceText[(int)product.Type].text = $"{product.Amount}";
     }
 }

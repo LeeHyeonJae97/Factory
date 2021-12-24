@@ -5,30 +5,57 @@ using Extension;
 
 public class ServiceTeamUI : MonoBehaviour
 {
-    [SerializeField] private GameObject _prefab;
-    [SerializeField] private Transform _holder;
+    [Header("Slot")]
+    [SerializeField] protected ServiceTeamSlot _slotPrefab;
+    [SerializeField] protected Transform _slotHolder;
+    [SerializeField] protected ServiceTeamBundleSO[] _serviceTeamBundles; // have to change load asynchronously        
 
-    [SerializeField] private ServiceTeamBundleSO _bundle; // have to change load asynchronously    
+    [Header("Chief")]
+    [SerializeField] protected ChiefSlot[] _chiefSlots;
+    [SerializeField] protected ChiefBundleSO _chiefBundle;
 
-    private Canvas _canvas;
+    protected List<ServiceTeamSlot> _slots = new List<ServiceTeamSlot>();
 
     private void Awake()
     {
-        _canvas = GetComponent<Canvas>();
-
-        _prefab.SetActive(false);
-        for (int i = 0; i < _bundle.ServiceTeams.Length; i++)
+        // get max count of farms in bundle
+        int max = 0;
+        if (_serviceTeamBundles.Length > 1)
         {
-            int index = i;
-            GameObject go = Instantiate(_prefab, _holder);
-            go.GetComponent<ServiceTeamSlot>().SetInfo(_bundle.ServiceTeams[index]);
-            go.SetActive(true);
+            for (int i = 0; i < _serviceTeamBundles.Length; i++)
+            {
+                int length = _serviceTeamBundles[i].ServiceTeams.Length;
+                if (max < length) max = length;
+            }
         }
-        _prefab.SetActive(true);
+        else
+        {
+            max = _serviceTeamBundles[0].ServiceTeams.Length;
+        }
+
+        // instantiate max count of farm slots
+        for (int i = 0; i < max; i++)
+            _slots.Add(Instantiate(_slotPrefab, _slotHolder));
+
+        //** NOTE : Maybe error
+        // set chief info
+        ChiefSO[] chiefs = _chiefBundle.Chiefs;
+        for (int i = 0; i < _chiefSlots.Length; i++)
+            _chiefSlots[i].SetInfo(chiefs[i]);
     }
 
-    public void SetActive(bool value)
+    public void SelectTab(int index)
     {
-        _canvas.SetActive(value);
+        // to invoke OnDisable
+        for (int i = 0; i < _slots.Count; i++)
+            _slots[i].gameObject.SetActive(false);
+
+        // set farm info
+        ServiceTeamSO[] items = _serviceTeamBundles[index].ServiceTeams;
+        for (int i = 0; i < items.Length; i++)
+        {
+            _slots[i].SetInfo(items[i]);
+            _slots[i].gameObject.SetActive(true);
+        }
     }
 }

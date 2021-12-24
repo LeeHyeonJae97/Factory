@@ -1,71 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Extension;
 
-public class FarmUI : MonoBehaviour
+public class FarmUI : MonoBehaviour, ITab
 {
     [Header("Slot")]
-    [SerializeField] private FarmSlot _farmSlotPrefab;    
-    [SerializeField] private Transform _farmSlotholder;
-    [SerializeField] private FarmBundleSO[] _farmBundles; // have to change load asynchronously        
+    [SerializeField] protected FarmSlot _slotPrefab;
+    [SerializeField] protected Transform _slotHolder;
+    [SerializeField] protected FarmBundleSO[] _farmBundles; // have to change load asynchronously        
 
     [Header("Chief")]
-    [SerializeField] private ChiefSlot[] _chiefSlots;
-    [SerializeField] private ChiefUI _chiefUI;
-    [SerializeField] private ChiefBundleSO[] _chiefBundles;
+    [SerializeField] protected ChiefSlot[] _chiefSlots;
+    [SerializeField] protected ChiefBundleSO _chiefBundle;
 
-    private Canvas _canvas;
-    private List<FarmSlot> _farmSlots = new List<FarmSlot>();
+    protected List<FarmSlot> _slots = new List<FarmSlot>();
 
     private void Awake()
     {
-        _canvas = GetComponent<Canvas>();
-
         // get max count of farms in bundle
         int max = 0;
-        for (int i = 0; i < _farmBundles.Length; i++)
+        if (_farmBundles.Length > 1)
         {
-            int length = _farmBundles[i].Farms.Length;
-            if (max < length) max = length;
+            for (int i = 0; i < _farmBundles.Length; i++)
+            {
+                int length = _farmBundles[i].Farms.Length;
+                if (max < length) max = length;
+            }
+        }
+        else
+        {
+            max = _farmBundles[0].Farms.Length;
         }
 
-        // instantiate max count of farm slots
-        _farmSlotPrefab.gameObject.SetActive(false);
         for (int i = 0; i < max; i++)
-            _farmSlots.Add(Instantiate(_farmSlotPrefab, _farmSlotholder));
-        _farmSlotPrefab.gameObject.SetActive(true);
+            _slots.Add(Instantiate(_slotPrefab, _slotHolder));
 
-        // add click listeners to chief slots
-        for (int i = 0; i < _chiefSlots.Length; i++)
-            _chiefSlots[i].Init(_chiefUI.Open);
-    }
-
-    public void Select(int index)
-    {
-        // set index farm bundle info
-        Farm[] farms = _farmBundles[index].Farms;
-        for (int i = 0; i < _farmSlots.Count; i++)
-        {
-            if (i < farms.Length)
-            {
-                _farmSlots[i].SetInfo(farms[i]);
-                _farmSlots[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                _farmSlots[i].gameObject.SetActive(false);
-            }
-        }
-
-        // set index chief bundle info
-        Chief[] chiefs = _chiefBundles[index].Chiefs;
+        //** NOTE : Maybe error
+        // set chief info
+        ChiefSO[] chiefs = _chiefBundle.Chiefs;
         for (int i = 0; i < _chiefSlots.Length; i++)
             _chiefSlots[i].SetInfo(chiefs[i]);
     }
 
-    public void SetActive(bool value)
+    public void SelectTab(int index)
     {
-        _canvas.SetActive(value);
+        // to invoke OnDisable
+        for (int i = 0; i < _slots.Count; i++)
+            _slots[i].gameObject.SetActive(false);
+
+        // set farm info
+        FarmSO[] items = _farmBundles[index].Farms;
+        for (int i = 0; i < items.Length; i++)
+        {
+            _slots[i].SetInfo(items[i]);
+            _slots[i].gameObject.SetActive(true);
+        }
     }
 }

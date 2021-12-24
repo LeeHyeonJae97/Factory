@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FactorySlot : MonoBehaviour
+public class FactorySlot : MonoBehaviour, IPresenter<FactorySO>, IObserver
 {
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI[] _inputTexts;
@@ -17,7 +17,7 @@ public class FactorySlot : MonoBehaviour
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private GameObject _unlockedCoverImage;
 
-    private Factory _factory;
+    private FactorySO _factory;
 
     private void Start()
     {
@@ -34,21 +34,19 @@ public class FactorySlot : MonoBehaviour
         Observe(false);
     }
 
-    public void SetInfo(Factory factory)
+    public void SetInfo(FactorySO factory)
     {
-        Observe(false);
         _factory = factory;
-        Observe(true);
-
-        UpdateUI(factory);
     }
 
-    private void Observe(bool value)
+    public void Observe(bool value)
     {
         if (_factory == null) return;
 
         if (value)
         {
+            UpdateUI(_factory);
+
             _factory.onValueChanged += UpdateUI;
             _factory.onProgressValueChanged += UpdateProgressUI;
         }
@@ -59,35 +57,28 @@ public class FactorySlot : MonoBehaviour
         }
     }
 
-    private void UpdateUI(Factory factory)
+    private void UpdateUI(FactorySO factory)
     {
-        if (factory.Level == 0)
+        _nameText.text = factory.Name;
+        for (int i = 0; i < _inputTexts.Length; i++)
         {
-            _unlockedCoverImage.SetActive(true);
-        }
-        else
-        {
-            _nameText.text = factory.Name;
-            for (int i = 0; i < _inputTexts.Length; i++)
+            if (i < factory.InputAmounts.Length)
             {
-                if (i < factory.Inputs.Length)
-                {
-                    _inputTexts[i].gameObject.SetActive(true);
-                    _inputTexts[i].text = $"Input Amount : {factory.Inputs[i].Amount}";
-                }
-                else
-                {
-                    _inputTexts[i].gameObject.SetActive(false);
-                }
+                _inputTexts[i].gameObject.SetActive(true);
+                _inputTexts[i].text = $"Input Amount : {factory.InputAmounts[i]}";
             }
-            _outputText.text = $"Output Amount : {factory.Output.Amount}";
-            _leadTimeText.text = $"Lead Time : {factory.LeadTime}";
-            _unlockConditionText.text = $"Unlock Condition : {factory.UnlockCondition.Amount}";
-            _upgradeCostText.text = $"Upgrade Cost : {factory.UpgradeCost.Amount}";
-            _backgroundImage.sprite = factory.Background;
-
-            if (_unlockedCoverImage.activeInHierarchy) _unlockedCoverImage.SetActive(false);
+            else
+            {
+                _inputTexts[i].gameObject.SetActive(false);
+            }
         }
+        _outputText.text = $"Output Amount : {factory.OutputAmount}";
+        _leadTimeText.text = $"Lead Time : {factory.LeadTime}";
+        _unlockConditionText.text = $"Unlock Condition : {factory.UnlockConditionAmount}";
+        _upgradeCostText.text = $"Upgrade Cost : {factory.UpgradeCost}";
+        _backgroundImage.sprite = factory.Background;
+        _unlockedCoverImage.SetActive(factory.Level == 0);
+        _progressFillImage.fillAmount = factory.Progress;
     }
 
     private void UpdateProgressUI(float progress)

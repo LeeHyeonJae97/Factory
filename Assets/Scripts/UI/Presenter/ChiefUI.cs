@@ -5,11 +5,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChiefUI : MonoBehaviour
+public class ChiefUI : MonoBehaviour, IPresenter<ChiefSO>
 {
     [SerializeField] private Image _previewImage;
     [SerializeField] private TextMeshProUGUI _nameText;
-    [SerializeField] private TextMeshProUGUI _descriptionText;
     [SerializeField] private TextMeshProUGUI _buffText;
     [SerializeField] private TextMeshProUGUI _amountText;
 
@@ -20,19 +19,16 @@ public class ChiefUI : MonoBehaviour
         _canvas = GetComponent<Canvas>();
     }
 
-    public void Open(Chief chief)
+    public void SetInfo(ChiefSO chief)
     {
         _previewImage.sprite = chief.Preview;
         _nameText.text = chief.Name;
-        _descriptionText.text = chief.Description;
         _buffText.text = $"{chief.Buff}";
         _amountText.text = $"{chief.Amount}";
-
-        _canvas.SetActive(true);
     }
 
-    public void Close()
+    public void SetActive(bool value)
     {
-        _canvas.SetActive(false);
+        _canvas.enabled = value;
     }
 }

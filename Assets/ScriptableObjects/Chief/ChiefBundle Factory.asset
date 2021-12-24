@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf40f6a41f06474ebd1629298a14a2f, type: 3}
+  m_Name: ChiefBundle Factory
+  m_EditorClassIdentifier: 
+  <Chiefs>k__BackingField:
+  - {fileID: 11400000, guid: 8d1c44fb8a34e434390b9acf524d9dce, type: 2}
+  - {fileID: 11400000, guid: 62fe313d695d9934fbc618428c813413, type: 2}
+  - {fileID: 11400000, guid: a3a73ffdcc1e5de4e8cc97d36d3a127c, type: 2}
+  - {fileID: 11400000, guid: 8ba4af79f4a2bd94084cfcd6f5837ac7, type: 2}
+  - {fileID: 11400000, guid: 0468bee8ba7b9004ba65dfd59c7b62c1, type: 2}

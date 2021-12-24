@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SalesTeamSlot : MonoBehaviour
+public class SalesTeamSlot : MonoBehaviour, IPresenter<SalesTeamSO>, IObserver
 {
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _inputText;
@@ -17,7 +17,7 @@ public class SalesTeamSlot : MonoBehaviour
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private GameObject _unlockedCoverImage;
 
-    private SalesTeam _salesTeam;
+    private SalesTeamSO _salesTeam;
 
     private void Start()
     {
@@ -34,21 +34,19 @@ public class SalesTeamSlot : MonoBehaviour
         Observe(false);
     }
 
-    public void SetInfo(SalesTeam salesTeam)
+    public void SetInfo(SalesTeamSO salesTeam)
     {
-        Observe(false);
         _salesTeam = salesTeam;
-        Observe(true);
-
-        UpdateUI(salesTeam);
     }
 
-    private void Observe(bool value)
+    public void Observe(bool value)
     {
         if (_salesTeam == null) return;
 
         if (value)
         {
+            UpdateUI(_salesTeam);
+
             _salesTeam.onValueChanged += UpdateUI;
             _salesTeam.onProgressValueChanged += UpdateProgressUI;
         }
@@ -59,24 +57,17 @@ public class SalesTeamSlot : MonoBehaviour
         }
     }
 
-    private void UpdateUI(SalesTeam salesTeam)
+    private void UpdateUI(SalesTeamSO salesTeam)
     {
-        if (salesTeam.Level == 0)
-        {
-            _unlockedCoverImage.SetActive(true);
-        }
-        else
-        {
-            _nameText.text = salesTeam.Name;
-            _inputText.text = $"Input Amount : {salesTeam.Input.Amount}";
-            _outputText.text = $"Max Output Amount : {salesTeam.Input.Amount * salesTeam.Input.Asset.Price}";
-            _leadTimeText.text = $"Lead Time : {salesTeam.LeadTime}";
-            _unlockConditionText.text = $"Unlock Condition : {salesTeam.UnlockCondition.Amount}";
-            _upgradeCostText.text = $"Upgrade Cost : {salesTeam.UpgradeCost.Amount}";
-            _backgroundImage.sprite = salesTeam.Background;
-
-            if (_unlockedCoverImage.activeInHierarchy) _unlockedCoverImage.SetActive(false);
-        }
+        _nameText.text = salesTeam.Name;
+        _inputText.text = $"Input Amount : {salesTeam.InputAmount}";
+        _outputText.text = $"Max Output Amount : {salesTeam.InputAmount * salesTeam.Input.Price}";
+        _leadTimeText.text = $"Lead Time : {salesTeam.LeadTime}";
+        _unlockConditionText.text = $"Unlock Condition : {salesTeam.UnlockConditionAmount}";
+        _upgradeCostText.text = $"Upgrade Cost : {salesTeam.UpgradeCost}";
+        _backgroundImage.sprite = salesTeam.Background;
+        _unlockedCoverImage.SetActive(salesTeam.Level == 0);
+        _progressFillImage.fillAmount = salesTeam.Progress;
     }
 
     private void UpdateProgressUI(float progress)

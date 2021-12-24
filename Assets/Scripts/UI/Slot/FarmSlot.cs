@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-public class FarmSlot : MonoBehaviour
+public class FarmSlot : MonoBehaviour, IPresenter<FarmSO>, IObserver
 {
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _outputText;
@@ -17,7 +17,7 @@ public class FarmSlot : MonoBehaviour
     [SerializeField] private Button _upgradeButton;
     [SerializeField] private GameObject _unlockedCoverImage;
 
-    private Farm _farm;
+    private FarmSO _farm;
 
     private void Start()
     {
@@ -34,21 +34,19 @@ public class FarmSlot : MonoBehaviour
         Observe(false);
     }
 
-    public void SetInfo(Farm farm)
+    public void SetInfo(FarmSO farm)
     {
-        Observe(false);
         _farm = farm;
-        Observe(true);
-
-        UpdateUI(farm);
     }
 
-    private void Observe(bool value)
+    public void Observe(bool value)
     {
         if (_farm == null) return;
 
-        if(value)
+        if (value)
         {
+            UpdateUI(_farm);
+
             _farm.onValueChanged += UpdateUI;
             _farm.onProgressValueChanged += UpdateProgressUI;
         }
@@ -59,23 +57,16 @@ public class FarmSlot : MonoBehaviour
         }
     }
 
-    private void UpdateUI(Farm farm)
+    private void UpdateUI(FarmSO farm)
     {
-        if (farm.Level == 0)
-        {
-            _unlockedCoverImage.SetActive(true);
-        }
-        else
-        {
-            _nameText.text = farm.Name;
-            _outputText.text = $"Output Amount : {farm.Output}";
-            _leadTimeText.text = $"Lead Time : {farm.LeadTime}";
-            _unlockConditionText.text = $"Unlock Condition : {farm.UnlockCondition.Amount}";
-            _upgradeCostText.text = $"Upgrade Cost : {farm.UpgradeCost.Amount}";
-            _backgroundImage.sprite = farm.Background;
-
-            if (_unlockedCoverImage.activeInHierarchy) _unlockedCoverImage.SetActive(false);
-        }
+        _nameText.text = farm.Name;
+        _outputText.text = $"Output Amount : {farm.OutputAmount}";
+        _leadTimeText.text = $"Lead Time : {farm.LeadTime}";
+        _unlockConditionText.text = $"Unlock Condition : {farm.UnlockConditionAmount}";
+        _upgradeCostText.text = $"Upgrade Cost : {farm.UpgradeCost}";
+        _backgroundImage.sprite = farm.Background;
+        _unlockedCoverImage.SetActive(farm.Level == 0);
+        _progressFillImage.fillAmount = farm.Progress;
     }
 
     private void UpdateProgressUI(float progress)
